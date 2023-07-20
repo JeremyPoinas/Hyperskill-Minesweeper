@@ -1,6 +1,8 @@
 package minesweeper;
 
+import java.util.Random;
 import java.util.Scanner;
+import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) {
@@ -11,27 +13,28 @@ public class Main {
     }
 
     private static void createField(int mines) {
-        StringBuilder line;
-        StringBuilder field = new StringBuilder();
-        int restingMines = mines;
+        Random random = new Random();
+        char[][] field = new char[9][9];
+        int minesOnField = 0;
 
-        while (restingMines > 0) {
-            restingMines = mines;
-            field = new StringBuilder();
-            for (int i = 0; i < 9; i++) {
-                line = new StringBuilder();
-                for (int j = 0; j < 9; j++) {
-                    if (restingMines > 0 && Math.random() > 0.6) {
-                        line.append('X');
-                        restingMines--;
-                    } else {
-                        line.append('.');
-                    }
-                }
-                line.append("\n");
-                field.append(line);
+        for (char[] chars: field) {
+            Arrays.fill(chars, '.');
+        }
+
+        while (minesOnField < mines) {
+            int x = random.nextInt(9);
+            int y = random.nextInt(9);
+            if (field[x][y] != 'X') {
+                field[x][y] = 'X';
+                minesOnField++;
             }
         }
-        System.out.println(field);
+
+        for (char[] chars: field) {
+            for (char c: chars) {
+                System.out.print(c);
+            }
+            System.out.println();
+        }
     }
 }
